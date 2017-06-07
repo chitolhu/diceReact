@@ -9,7 +9,7 @@ constructor(props){
 render(){
   return(
     <div className="player-0-panel active">
-      <div className="player-name" id="name-0">Player 1</div>
+      <div className="player-name" id="name-0">{ this.props.playerName }</div>
       <div className="player-score player-score-left" id="score-0">43</div>
       <div className="player-current-box">
         <div className="player-current-label">Current</div>

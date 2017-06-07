@@ -9,14 +9,16 @@ const gameConf = {
       playerId: 1,
       globalScore: 0,
       currentScore: 0,
-      active: true
+      isActive: true,
+      isWinner: null
     },
     {
       playerName: "Player 2",
       playerId: 2,
       globalScore: 0,
       currentScore: 0,
-      active: false
+      isActive: false,
+      isWinner: null
     }
   ],
   diceValue: 1
@@ -50,7 +52,11 @@ class App extends Component {
       <div className="wrapper clearfix">
         {
           players.map(player => {
-            return <Player />
+            return (
+              <Player
+                playerName={ player.playerName}
+                 />
+            )
           })
         }
         <button className="btn-new"><i className="ion-ios-plus-outline"></i>New game</button>
