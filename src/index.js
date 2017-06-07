@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+//Components
 import Player from './components/player'
+import Buttons from './components/buttons'
+
+const TOP_POINTS = 100;
 
 const gameConf = {
   playerState: [
@@ -8,7 +12,7 @@ const gameConf = {
       playerName: "Player 1",
       playerId: 1,
       globalScore: 0,
-      currentScore: 0,
+      roundScore: 0,
       isActive: true,
       isWinner: null
     },
@@ -16,7 +20,7 @@ const gameConf = {
       playerName: "Player 2",
       playerId: 2,
       globalScore: 0,
-      currentScore: 0,
+      roundScore: 0,
       isActive: false,
       isWinner: null
     }
@@ -46,27 +50,36 @@ class App extends Component {
   }
 
   render(){
-      let players = this.state.playerState;
-      let dice = this.state.diceValue;
+    setTimeout(() => {
+      let diceValue = Math.floor(Math.random() * 6) + 1;
+      this.setState({diceValue})
+    }, 1000);
+    let players = this.state.playerState;
+    let diceValue = this.state.diceValue;
     return (
       <div className="wrapper clearfix">
         {
           players.map(player => {
             return (
               <Player
-                playerName={ player.playerName}
-                 />
+                playerName={ player.playerName }
+                roundScore={ player.roundScore }
+                globalScore={ player.globalScore }
+                isWinner={ player.isWinner }
+                isActive={ player.isActive }
+                key={ player.playerId }
+                pId={ player.playerId }
+                />
             )
           })
         }
-        <button className="btn-new"><i className="ion-ios-plus-outline"></i>New game</button>
-        <button className="btn-roll"><i className="ion-ios-loop"></i>Roll dice</button>
-        <button className="btn-hold"><i className="ion-ios-download-outline"></i>Hold</button>
 
-        <img src="../images/huge-dice5.png" alt="Dice" className="dice" />
-      </div>
-    );
-  }
+        <Buttons />
+
+        { diceValue !== 0 && <img src={require(`../images/huge-dice${diceValue}.png`)} alt="Dice" className="dice" /> }
+    </div>
+  );
+}
 }
 
 ReactDOM.render(<App />, document.querySelector('.container'));
