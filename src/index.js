@@ -25,7 +25,7 @@ const gameConf = {
       isWinner: null
     }
   ],
-  diceValue: 1
+  diceValue: 0
 };
 
 
@@ -37,23 +37,12 @@ class App extends Component {
 
   }
 
-  newGame(){
-
-  }
-
   nextPlayer(){
 
   }
 
-  rollDice(){
-
-  }
-
   render(){
-    setTimeout(() => {
-      let diceValue = Math.floor(Math.random() * 6) + 1;
-      this.setState({diceValue})
-    }, 1000);
+
     let players = this.state.playerState;
     let diceValue = this.state.diceValue;
     return (
@@ -74,12 +63,17 @@ class App extends Component {
           })
         }
 
-        <Buttons />
+        <Buttons
+          onRollDice={ diceValue => this.setState({ diceValue }) }
+          onNewGame={ () => this.setState(gameConf) }
+          onHold=""
+          />
 
         { diceValue !== 0 && <img src={require(`../images/huge-dice${diceValue}.png`)} alt="Dice" className="dice" /> }
-    </div>
-  );
-}
+
+      </div>
+    );
+  }
 }
 
 ReactDOM.render(<App />, document.querySelector('.container'));
