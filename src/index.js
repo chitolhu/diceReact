@@ -41,6 +41,29 @@ class App extends Component {
 
   }
 
+  onRollDice(){
+    let diceValue = Math.floor(Math.random() * 6) + 1;
+    this.setState({ diceValue });
+
+    if (diceValue !== 1) {
+      let playerState = this.state.playerState.map(player => {
+        if (player.isActive) {
+          return Object.assign({}, player, {
+            roundScore: player.roundScore + diceValue
+          });
+        }
+        return player
+      });
+
+      this.setState({playerState})
+
+    } else {
+      //this.endTurn();
+    }
+
+
+  }
+
   render(){
 
     let players = this.state.playerState;
@@ -64,7 +87,7 @@ class App extends Component {
         }
 
         <Buttons
-          onRollDice={ diceValue => this.setState({ diceValue }) }
+          onRollDice={ diceValue => this.onRollDice(diceValue) }
           onNewGame={ () => this.setState(gameConf) }
           onHold=""
           />
