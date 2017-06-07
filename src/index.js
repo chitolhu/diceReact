@@ -48,9 +48,10 @@ class App extends Component {
     if (diceValue !== 1) {
       let playerState = this.state.playerState.map(player => {
         if (player.isActive) {
-          return Object.assign({}, player, {
+          return {
+            ...player,
             roundScore: player.roundScore + diceValue
-          });
+          }
         }
         return player
       });
@@ -58,7 +59,7 @@ class App extends Component {
       this.setState({playerState})
 
     } else {
-      //this.endTurn();
+      //this.endHand();
     }
 
 
