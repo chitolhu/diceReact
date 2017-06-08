@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Player from './components/player'
 import Buttons from './components/buttons'
 
-const TOP_POINTS = 100;
+const TOP_POINTS = 10;
 
 const gameConf = {
   playerState: [
@@ -37,29 +37,40 @@ class App extends Component {
 
   }
 
-  nextPlayer(){
-
+  newGame(){
+    this.setState(gameConf);
   }
 
   onHold(){
+    if (this.state.playerState.find(player => player.isWinner)) return;
     let playerState = this.state.playerState.map(player => {
       if (player.isActive) {
         return {
           ...player,
           globalScore: player.globalScore + player.roundScore,
-          isActive: false,
           roundScore: 0
-        }
-      }else{
-        return {
-          ...player,
-          isActive: true
         }
       }
       return player
     });
-
-      this.setState({playerState})
+    this.setState({playerState}, () => {
+      let playerWinner = this.state.playerState.find(player => player.globalScore >= TOP_POINTS);
+      if (playerWinner) {
+        let playerState = this.state.playerState.map(player => {
+          if (player.isActive) {
+            return {
+              ...player,
+              playerName: ' WINNER',
+              isWinner: true
+            }
+          }
+          return player
+        });
+        this.setState({playerState, diceValue: 0});
+      } else {
+        this.nextPlayer()
+      }
+    });
   }
 
   onRollDice(){
@@ -67,7 +78,7 @@ class App extends Component {
     this.setState({ diceValue });
 
     if (diceValue !== 1) {
-      let playerState = this.state.playerState.map(player => {
+      const playerState = this.state.playerState.map(player => {
         if (player.isActive) {
           return {
             ...player,
@@ -80,11 +91,34 @@ class App extends Component {
       this.setState({playerState})
 
     } else {
-      //this.endHand();
+      this.nextPlayer();
     }
 
 
   }
+
+  nextPlayer(){
+    console.log("asd");
+    let playerState = this.state.playerState.map(player => {
+      if (player.isActive) {
+        return {
+          ...player,
+          roundScore: 0,
+          isActive: !player.isActive
+        }
+      }else{
+        return {
+          ...player,
+          roundScore: 0,
+          isActive: !player.isActive
+        }
+      }
+      return player
+    });
+
+    this.setState({ playerState });
+  }
+
 
   render(){
     let players = this.state.playerState;
@@ -109,7 +143,7 @@ class App extends Component {
 
         <Buttons
           onRollDice={ diceValue => this.onRollDice(diceValue) }
-          onNewGame={ () => this.setState(gameConf) }
+          onNewGame={ () => this.newGame() }
           onHold={ () => this.onHold() }
           />
 
