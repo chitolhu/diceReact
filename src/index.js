@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Player from './components/player'
 import Buttons from './components/buttons'
 
-const TOP_POINTS = 10;
+const TOP_POINTS = 100;
 
 const gameConf = {
   playerState: [
