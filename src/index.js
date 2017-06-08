@@ -113,7 +113,6 @@ class App extends Component {
           isActive: !player.isActive
         }
       }
-      return player
     });
 
     this.setState({ playerState });
